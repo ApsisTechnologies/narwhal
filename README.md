@@ -1,8 +1,10 @@
 ![alt Narwhal logo](logo.png)
 
-# Narwhal: FastAPI + Docker + Poetry-based Python server
+# Narwhal: Fast & Secure Python Microservices
 
-Narwhal provides a simple server template you can use to quickly build a [FastAPI](https://fastapi.tiangolo.com/)-based server application written in [Python](https://www.python.org/) that can be easily deployed as an ultra-lightweight Docker container, making it ideal for deploying your app on [Kubernetes](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/), [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html), [Google Cloud Run](https://cloud.google.com/run) and others.
+Narwhal is a framework to speed up development and deployment of Python microservices.
+
+Narwhal is based on [FastAPI](https://fastapi.tiangolo.com/) application written in [Python](https://www.python.org/) that can be easily deployed as an ultra-lightweight Docker container, making it ideal for deploying your app on [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html), [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html), [Kubernetes](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/), [Google Cloud Run](https://cloud.google.com/run) or your favorite container runtime environment.
 
 # Main Features
 
@@ -10,9 +12,9 @@ Narwhal provides a simple server template you can use to quickly build a [FastAP
 
 - Pre-configured to use [uvicorn](https://www.uvicorn.org/) and [uvloop](https://github.com/MagicStack/uvloop) for lightning-fast performance. ⚡️
 
-- Uses [Poetry](https://python-poetry.org/docs/) for easily managing dependencies. ✨️
+- Uses [Poetry](https://python-poetry.org/docs/) for simple dependency management. ✨️
 
-- Speeds up development via hot reloading. 🪄️
+- Hot reloading for fast development. 🪄️
 
 - Super lightweight container images thanks to [multi-stage](https://docs.docker.com/develop/develop-images/multistage-build/) Docker build and [Alpine Linux](https://www.alpinelinux.org/about/) (starts at ~70MiB). 🪶️
 
@@ -31,12 +33,12 @@ Make sure you have the following dependencies installed to run in development mo
 ## Clone the project
 
 ```bash
-$ git clone git@github.com:ApsisTechnologies/FastAPI-Docker-Template.git
+$ git clone git@github.com:ApsisTechnologies/narwhal.git
 ```
 ## Run in development mode
 
 ```bash
-$ cd FastAPI-Docker-Template
+$ cd narwhal
 
 # start local server on localhost, port 8000
 $ make dev
@@ -55,6 +57,18 @@ $ make serve
 The `src` directory contains the application code which is deployed onto the container image.
 
 You'll need to modify `Dockerfile` if you wanted to include other source code locations in your app.
+
+### Automatically-generated OpenAPI documentation
+
+FastAPI provides several OpenAPI doc endpoints at the following routes:
+
+- `/docs`: OpenAPI/Swagger docs.
+- `/redoc`: [Redoc](https://redocly.com/redoc/) docs.
+- `/openapi.json`: OpenAPI .json spec file.
+
+You can disable these endpoints by passing `NARWHAL_DISABLE_DOCS=true` as an environment variable.
+
+When building the container via `make build` command, these endpoints are disabled by default.
 
 ### Docker image naming
 

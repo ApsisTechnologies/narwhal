@@ -4,7 +4,7 @@ version = "0.0.0"
 description = "FastAPI project template using Poetry and Docker"
 authors = ["Martin Z <martin@apsistechnologies.com>"]
 license = "MIT"
-repository = "git@github.com:ApsisTechnologies/FastAPI-Docker-Template.git"
+repository = "git@github.com:ApsisTechnologies/narwhal.git"
 
 [tool.poetry.dependencies]
 python = "^3.9"
