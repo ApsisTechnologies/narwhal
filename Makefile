@@ -25,5 +25,5 @@ build:
 serve: build
 	@echo "Running app container on http://localhost:${PORT}"
 	@docker run -it --rm \
-		-p ${PORT}:${PORT} \
+		-p ${PORT}:8080 \
 		${APP_IMAGE_NAME}

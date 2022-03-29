@@ -23,7 +23,16 @@ RUN apk update && \
     apk add \
       curl \
       make \
-      g++
+      g++ \
+      cmake \
+      autoconf \
+      automake \
+      libtool \
+      libexecinfo-dev \
+      libstdc++ \
+      libcurl \
+      build-base
+      
 
 # install Poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
@@ -48,16 +57,29 @@ ENV NARWHAL_DISABLE_DOCS=true
 
 WORKDIR /opt/$USER
 
+RUN apk update && \
+    apk add \
+    curl \
+    libtool \
+    libexecinfo-dev \
+    libstdc++ \
+    libcurl \
+    build-base
+
 COPY --from=builder-image /opt/$USER/.venv .venv
 ADD ./src .
 ADD ./entrypoint.sh .
 RUN chmod +x entrypoint.sh
+
+RUN mkdir -p /opt/.aws-lambda-rie && \
+    curl -Lo /opt/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
+    chmod +x /opt/.aws-lambda-rie/aws-lambda-rie
+
 
 # switch to non-root user
 # NOTE: See Alpine Linux add user reference for details: https://wiki.alpinelinux.org/wiki/Setting_up_a_new_user
 RUN addgroup -S $USER && adduser -D -G $USER $USER
 USER $USER
 
-ENTRYPOINT /opt/app/entrypoint.sh $0 $@
-
-CMD ["uvicorn", "main:app", "--proxy-headers", "--loop uvloop", "--workers 1", "--log-level warning", "--no-use-colors", "--host 0.0.0.0", "--port 8000"]
+ENTRYPOINT ["/opt/app/entrypoint.sh"]
+CMD [ "main.handler" ]

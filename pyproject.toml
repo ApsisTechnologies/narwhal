@@ -10,6 +10,8 @@ repository = "git@github.com:ApsisTechnologies/narwhal.git"
 python = "^3.9"
 fastapi = "^0.70.0"
 uvicorn = {extras = ["standard"], version = "^0.16.0"}
+awslambdaric = "^2.0.1"
+mangum = "^0.14.1"
 
 [tool.poetry.dev-dependencies]
 
