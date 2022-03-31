@@ -34,6 +34,12 @@ async def hello():
 
 def handler(event, context):
 
+    try :
+      res = event['requestContext']['http']['path'].split('/',2)
+      event['requestContext']['http']['path'] = '/' + res[2]
+    except:
+      event['requestContext']['http']['path'] = '/'
+
     asgi_handler = Mangum(app)
     response = asgi_handler(event, context) # Call the instance with the event arguments
 

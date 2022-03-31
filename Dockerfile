@@ -28,10 +28,7 @@ RUN apk update && \
       autoconf \
       automake \
       libtool \
-      libexecinfo-dev \
-      libstdc++ \
-      libcurl \
-      build-base
+      libexecinfo-dev
       
 
 # install Poetry
