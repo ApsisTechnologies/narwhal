@@ -59,8 +59,7 @@ ENV NARWHAL_DISABLE_DOCS=true
 WORKDIR /opt/$USER
 
 RUN apk update && \
-    apk add \
-    libstdc++ 
+    apk add libstdc++ 
 
 COPY --from=builder-image /opt/$USER/.venv .venv
 ADD ./src .

@@ -30,10 +30,9 @@ async def hello():
   return {
     'Hello': app_name
   }
-  
-def handler(event, context):
 
+def handler(event, context):
     asgi_handler = Mangum(app)
-    response = asgi_handler(event, context) # Call the instance with the event arguments
+    response = asgi_handler(event, context)
 
     return response
