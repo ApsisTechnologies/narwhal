@@ -41,6 +41,10 @@ ADD pyproject.toml .
 
 RUN poetry install --no-dev
 
+RUN mkdir -p /opt/.aws-lambda-rie && \
+    curl -Lo /opt/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
+    chmod +x /opt/.aws-lambda-rie/aws-lambda-rie
+
 ####################################################
 # App base image
 ####################################################
@@ -56,22 +60,14 @@ WORKDIR /opt/$USER
 
 RUN apk update && \
     apk add \
-    curl \
-    libtool \
-    libexecinfo-dev \
-    libstdc++ \
-    libcurl \
-    build-base
+    libstdc++ 
 
 COPY --from=builder-image /opt/$USER/.venv .venv
 ADD ./src .
 ADD ./entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
-RUN mkdir -p /opt/.aws-lambda-rie && \
-    curl -Lo /opt/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
-    chmod +x /opt/.aws-lambda-rie/aws-lambda-rie
-
+COPY --from=builder-image /opt/.aws-lambda-rie/ /opt/.aws-lambda-rie/
 
 # switch to non-root user
 # NOTE: See Alpine Linux add user reference for details: https://wiki.alpinelinux.org/wiki/Setting_up_a_new_user
